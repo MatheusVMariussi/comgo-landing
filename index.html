@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COM&GO — A vida ativa de Curitiba, num só lugar</title>
+<meta name="description" content="Siga seus amigos, descubra eventos e treinos perto de você, nunca mais perca um prazo de inscrição. Lançamento 13 de julho em Curitiba.">
+<meta property="og:title" content="COM&GO — A vida ativa de Curitiba, num só lugar">
+<meta property="og:description" content="Siga seus amigos e descubra onde eles vão treinar. Nunca mais perca uma inscrição por falta de informação.">
+<meta property="og:type" content="website">
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:      #0e0e0e;
+  --card:    #181818;
+  --card2:   #1f1f1f;
+  --accent:  #c8f135;
+  --white:   #ffffff;
+  --muted:   rgba(255,255,255,0.5);
+  --dim:     rgba(255,255,255,0.28);
+  --divider: rgba(255,255,255,0.08);
+  --border:  rgba(255,255,255,0.1);
+  --green:   #3ecf6e;
+  --purple:  #9b72f7;
+  --red:     #f43f5e;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 600px) { .wrap { padding: 0 20px; } }
+
+/* ── EYEBROW ── */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before { content: '//'; opacity: 0.6; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(14,14,14,0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--divider);
+}
+.nav-inner {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+}
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.nav-links {
+  display: flex; gap: 32px; align-items: center;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--white); }
+@media (max-width: 760px) { .nav-links { display: none; } }
+
+.nav-cta {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  background: var(--accent);
+  color: var(--bg);
+  white-space: nowrap;
+  transition: opacity .2s;
+}
+.nav-cta:hover { opacity: 0.88; }
+
+/* ── HERO ── */
+.hero {
+  padding: 80px 0 96px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 50% at 90% 10%, rgba(200,241,53,0.07) 0%, transparent 100%),
+    radial-gradient(ellipse 60% 55% at 10% 90%, rgba(155,114,247,0.06) 0%, transparent 100%);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 740px; }
+
+.hl-serif {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--muted);
+  line-height: 1.2;
+}
+.hl-bold {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(72px, 12vw, 150px);
+  letter-spacing: -0.01em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  margin-top: 4px;
+  color: var(--white);
+}
+.hl-bold .accent-word { color: var(--accent); }
+.hl-line {
+  height: 4px;
+  width: 72px;
+  background: var(--accent);
+  margin-top: 20px;
+  border-radius: 2px;
+}
+.hero-sub {
+  margin-top: 28px;
+  font-size: clamp(15px, 1.8vw, 18px);
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.75;
+}
+.hero-sub strong { color: var(--white); font-weight: 600; }
+
+/* ── FORM ── */
+.signup { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; max-width: 460px; }
+.signup-row { display: flex; gap: 10px; }
+@media (max-width: 500px) { .signup-row { flex-direction: column; } }
+
+.signup input[type="email"],
+.signup input[type="text"] {
+  flex: 1;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  padding: 15px 20px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--card);
+  color: var(--white);
+  outline: none;
+  transition: border-color .2s;
+  min-width: 0;
+}
+.signup input::placeholder { color: var(--dim); }
+.signup input:focus { border-color: var(--accent); }
+
+.btn {
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px;
+  padding: 15px 26px; border-radius: 100px; border: none; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center;
+  justify-content: center; gap: 8px;
+  transition: transform .15s, opacity .15s; white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); opacity: .92; }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--accent); color: var(--bg); }
+.btn-wa { background: var(--card2); color: var(--white); border: 1px solid var(--border); }
+
+.or-divider {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim);
+}
+.or-divider::before,.or-divider::after { content: ''; flex: 1; height: 1px; background: var(--divider); }
+.micro { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .06em; color: var(--dim); margin-top: 2px; }
+.form-status { font-family: 'JetBrains Mono', monospace; font-size: 13px; display: none; }
+.form-status.ok  { color: var(--accent); display: block; }
+.form-status.err { color: var(--red); display: block; }
+
+/* ── SECTIONS ── */
+section { padding: 96px 0; border-top: 1px solid var(--divider); }
+@media (max-width: 600px) { section { padding: 64px 0; } }
+
+.section-head { max-width: 720px; margin-bottom: 56px; }
+.section-head.center { margin: 0 auto 56px; text-align: center; }
+.section-head.center .eyebrow { justify-content: center; }
+
+.sh {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(40px, 6vw, 72px);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.sh .a  { color: var(--accent); }
+.sh .g  { color: var(--green); }
+.sh .p  { color: var(--purple); }
+.sh .r  { color: var(--red); }
+
+/* ── PROBLEM ── */
+.problem-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+@media (max-width: 860px) { .problem-grid { grid-template-columns: 1fr; } }
+
+.problem-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px 26px;
+}
+.problem-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+.problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+.problem-card p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+.problem-note {
+  margin-top: 44px;
+  font-family: 'Inter', sans-serif;
+  font-style: italic; font-weight: 300;
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 720px;
+}
+.problem-note strong { color: var(--accent); font-style: normal; font-weight: 600; }
+
+/* ── SOCIAL BANNER ── */
+.social-banner {
+  background: var(--card);
+  border-top: none;
+  border-bottom: 1px solid var(--divider);
+}
+.social-banner .sh { color: var(--white); }
+.social-banner .sh .a { color: var(--accent); }
+.social-banner p {
+  color: var(--muted); font-size: 17px; line-height: 1.75;
+  max-width: 580px; margin-top: 20px;
+}
+.social-banner p strong { color: var(--white); font-weight: 600; }
+
+/* ── FEATURES ── */
+.feature-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
+  padding: 72px 0; border-bottom: 1px solid var(--divider);
+}
+.feature-row:last-child { border-bottom: none; }
+.feature-row.flip { direction: rtl; }
+.feature-row.flip > * { direction: ltr; }
+@media (max-width: 860px) {
+  .feature-row { grid-template-columns: 1fr; gap: 36px; direction: ltr; }
+  .feature-row.flip > * { direction: ltr; }
+}
+
+.feature-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 108px;
+  color: rgba(255,255,255,0.05);
+  line-height: 1; margin-bottom: -10px;
+}
+.feature-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px; display: block;
+}
+.feature-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(26px, 3.5vw, 38px);
+  letter-spacing: -0.01em; line-height: 1.1;
+  text-transform: uppercase;
+  margin-bottom: 18px; color: var(--white);
+}
+.feature-body { font-size: 15px; color: var(--muted); line-height: 1.75; }
+.feature-body strong { color: var(--white); font-weight: 600; }
+.feature-body em { font-style: normal; color: var(--accent); font-weight: 500; }
+
+/* Feature visual cards */
+.feature-visual {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 26px;
+  position: relative; overflow: hidden;
+}
+.feature-visual::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent);
+}
+.feature-visual.green::before { background: var(--green); }
+.feature-visual.purple::before { background: var(--purple); }
+
+.fv-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 18px;
+}
+.fv-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--divider); font-size: 14px;
+}
+.fv-item:last-child { border-bottom: none; }
+.fv-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.fv-name { font-weight: 600; color: var(--white); }
+.fv-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-left: auto; white-space: nowrap; }
+.fv-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 100px; white-space: nowrap; }
+.fv-badge.going { background: rgba(200,241,53,0.15); color: var(--accent); }
+.fv-badge.watch { background: rgba(255,255,255,0.07); color: var(--muted); }
+
+/* Notification */
+.notif-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px;
+  display: flex; gap: 13px; align-items: flex-start; margin-bottom: 10px;
+}
+.notif-icon {
+  width: 38px; height: 38px; background: rgba(255,255,255,0.06);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 17px; flex-shrink: 0;
+}
+.notif-text { font-size: 14px; line-height: 1.5; color: var(--muted); }
+.notif-text strong { color: var(--accent); font-weight: 700; }
+.notif-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: .08em; margin-top: 4px; }
+.notif-card.hi { border-color: rgba(200,241,53,0.2); }
+.notif-card.hi .notif-icon { background: rgba(200,241,53,0.1); }
+
+/* Deadline cards */
+.deadline-cards { display: flex; flex-direction: column; gap: 10px; }
+.dl-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 18px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.dl-name { font-weight: 600; font-size: 14px; color: var(--white); }
+.dl-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: .06em; margin-top: 3px; }
+.dl-days { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 12px; padding: 5px 12px; border-radius: 100px; white-space: nowrap; }
+.dl-days.urgent { background: rgba(244,63,94,0.15); color: var(--red); }
+.dl-days.soon   { background: rgba(200,241,53,0.12); color: var(--accent); }
+.dl-days.ok     { background: rgba(62,207,110,0.12); color: var(--green); }
+
+/* Chat */
+.chat-preview { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.chat-header {
+  padding: 14px 18px; border-bottom: 1px solid var(--divider);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.chat-title { font-size: 14px; font-weight: 700; }
+.chat-badge {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--accent); background: rgba(200,241,53,0.1);
+  padding: 3px 9px; border-radius: 100px; letter-spacing: .06em;
+  border: 1px solid rgba(200,241,53,0.2);
+}
+.chat-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.msg { padding: 10px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 82%; }
+.msg.them { background: var(--card2); color: var(--white); align-self: flex-start; border: 1px solid var(--border); }
+.msg.me   { background: var(--accent); color: var(--bg); align-self: flex-end; font-weight: 600; }
+.chat-footer {
+  padding: 10px 14px; border-top: 1px solid var(--divider);
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--dim); letter-spacing: .08em; text-align: center;
+}
+
+/* ── PROOF ── */
+.proof { background: var(--card); border-top: none; }
+.proof-quote {
+  font-family: 'Inter', sans-serif; font-style: italic; font-weight: 300;
+  font-size: clamp(20px, 3vw, 36px); line-height: 1.55;
+  max-width: 780px; margin-bottom: 56px; color: var(--muted);
+}
+.proof-quote strong { color: var(--accent); font-style: normal; font-weight: 700; }
+
+.proof-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+@media (max-width: 700px) { .proof-stats { grid-template-columns: 1fr; } }
+.proof-stat { border-top: 1px solid var(--border); padding-top: 20px; }
+.proof-stat .num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: clamp(44px, 5.5vw, 64px);
+  letter-spacing: -0.01em; color: var(--white); line-height: 1;
+  text-transform: uppercase;
+}
+.proof-stat .lbl {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--dim); margin-top: 8px;
+}
+
+/* ── FINAL CTA ── */
+.final-cta { text-align: center; }
+.final-cta .section-head { margin: 0 auto 16px; }
+
+.countdown {
+  display: flex; justify-content: center;
+  gap: 12px; margin: 40px 0 44px; flex-wrap: wrap;
+}
+.cd-unit {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 28px; min-width: 88px; text-align: center;
+}
+.cd-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 48px; color: var(--accent); line-height: 1; text-transform: uppercase;
+}
+.cd-lbl {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-top: 6px;
+}
+.final-cta .signup { margin: 0 auto; }
+.launch-date {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-top: 24px;
+}
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--divider); padding: 48px 0; }
+.footer-inner { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
+.footer-brand {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900; font-size: 28px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent);
+}
+.footer-tagline { font-family: 'Inter', sans-serif; font-style: italic; font-size: 15px; color: var(--muted); margin-top: 4px; }
+.footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; color: var(--dim); text-align: right; line-height: 2; }
+.footer-meta a { transition: color .2s; }
+.footer-meta a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo">COM&GO</div>
+    <ul class="nav-links">
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#para-quem">Para quem</a></li>
+      <li><a href="#lista">Lançamento</a></li>
+    </ul>
+    <a href="#lista" class="nav-cta">Tô dentro →</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="border-top:none;">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="eyebrow">Em breve · Curitiba</div>
+      <div class="hl-serif">a vida ativa de Curitiba,</div>
+      <div class="hl-bold">NUM SÓ <span class="accent-word">LUGAR.</span></div>
+      <div class="hl-line"></div>
+      <p class="hero-sub">
+        Siga seus amigos e descubra onde eles vão treinar, qual corrida compraram, qual evento de yoga estão de olho.
+        <strong>Nunca mais perca uma inscrição por falta de informação</strong> — e nunca mais vá a sós pra lugar nenhum.
+      </p>
+
+      <form id="form-hero" class="signup"
+            action="https://formspree.io/f/mlgkzlwk"
+            method="POST">
+        <div class="signup-row">
+          <input type="email" name="email" placeholder="seu@email.com" required aria-label="Seu e-mail">
+          <button type="submit" class="btn btn-primary">Tô dentro</button>
+        </div>
+        <div class="or-divider">ou</div>
+        <a class="btn btn-wa"
+           href="https://wa.me/5541992820191?text=Quero%20entrar%20na%20lista%20de%20espera%20da%20COM%26GO!"
+           target="_blank" rel="noopener">
+          Avisa pelo WhatsApp →
+        </a>
+        <p class="form-status" id="status-hero"></p>
+        <p class="micro">Sem spam. Só um aviso no dia do lançamento — 13 de julho.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Você se reconhece aqui?</div>
+      <h2 class="sh">Instagram e TikTok são ótimos pra consumir conteúdo.<br>Mas tenta usar pra <span class="a">organizar sua vida esportiva.</span></h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-label">Tudo espalhado</div>
+        <h3>Seis apps pra descobrir o que rola na cidade</h3>
+        <p>Calendário de corridas num site, assessoria de yoga no Instagram, evento de beach num grupo de WhatsApp, treinão num perfil que você nem segue. Pra saber o que rola essa semana precisaria abrir uns seis apps diferentes — e ainda assim ia perder coisa.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-label">Você descobre quando já passou</div>
+        <h3>A vaga acabou. O prazo foi. Você ficou sabendo depois.</h3>
+        <p>O evento que você queria estava com inscrições abertas por três semanas. Ficou sabendo depois que esgotou. Ou ficou sabendo a tempo, mas não sabia se alguém ia junto — e acabou não indo.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-label">A enrolação do WhatsApp</div>
+        <h3>"Alguém quer jogar beach sábado?" — 4 visualizações. Ninguém confirma.</h3>
+        <p>Você queria ir, a galera queria ir. Faltou alguém tirar do papel sem mandar mensagem pra cinco pessoas e esperar bolo. O sábado passou.</p>
+      </div>
+    </div>
+    <p class="problem-note">
+      68% das pessoas desistem de treinar quando não têm companhia.<br>
+      Não é falta de força de vontade. É falta de organização —
+      e de <strong>alguém pra ir junto.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- REDE SOCIAL BANNER -->
+<section class="social-banner" id="como-funciona">
+  <div class="wrap">
+    <div class="eyebrow">O que é a COM&GO</div>
+    <h2 class="sh">Uma rede social pra quem quer se mover —<br>não pra quem quer ficar <span class="a">só assistindo.</span></h2>
+    <p>
+      A COM&GO é onde você <strong>segue seus amigos</strong>, vê o que eles vão fazer no fim de semana, descobre treinos e eventos perto de você e confirma presença em um toque.
+      Sem burocracia, sem grupo de WhatsApp que não vai a lugar nenhum, sem descobrir tarde demais.
+    </p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding-top:0;border-top:none;" id="para-quem">
+  <div class="wrap">
+    <div style="padding-top:72px;">
+
+      <!-- F1 -->
+      <div class="feature-row">
+        <div class="feature-copy">
+          <div class="feature-num">01</div>
+          <span class="feature-tag">Rede social</span>
+          <h3 class="feature-title">Siga seus amigos e saiba em qual evento ou treino eles vão estar.</h3>
+          <p class="feature-body">
+            Siga quem você quer e veja em tempo real: qual corrida compraram, qual evento de wellness estão de olho, qual treinão gratuito confirmaram presença — <strong>corridas, yoga, beach, eventos fechados e abertos.</strong>
+            <br><br>
+            Quando você se inscrever num evento, quem te segue vai ver. Sem precisar mandar mensagem pra ninguém, alguém vai se animar e ir junto.
+            <em>A COM&GO automatiza o "alguém mais vai?" — sem você precisar fazer nada.</em>
+          </p>
+        </div>
+        <div class="feature-visual">
+          <div class="fv-label">📍 Seus amigos essa semana</div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--accent)"></div>
+            <div><div class="fv-name">Camila</div><div style="font-size:12px;color:var(--muted)">4ª Nissei Run · 14/06</div></div>
+            <span class="fv-badge going">vai ✓</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--purple)"></div>
+            <div><div class="fv-name">Rafa</div><div style="font-size:12px;color:var(--muted)">Yoga in Natura · 21/06</div></div>
+            <span class="fv-badge watch">de olho</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--green)"></div>
+            <div><div class="fv-name">Bia + 4 amigos</div><div style="font-size:12px;color:var(--muted)">FPT Grand Slam · 25/06</div></div>
+            <span class="fv-badge going">vão ✓</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--accent)"></div>
+            <div><div class="fv-name">Mari</div><div style="font-size:12px;color:var(--muted)">Treinão 15K · sábado</div></div>
+            <span class="fv-badge going">vai ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- F2 -->
+      <div class="feature-row flip">
+        <div class="feature-copy">
+          <div class="feature-num">02</div>
+          <span class="feature-tag">Calendário + Inscrições</span>
+          <h3 class="feature-title">Nunca mais perca um prazo de inscrição ou um evento por falta de informação.</h3>
+          <p class="feature-body">
+            Corrida com inscrições abertas por três semanas. Evento de yoga que esgotou em dois dias. Treinão gratuito que ficou sabendo depois.
+            <br><br>
+            A COM&GO reúne tudo com data, horário e <strong>prazo de inscrição em destaque</strong> — pra você chegar antes que acabe, não depois que passou.
+          </p>
+        </div>
+        <div class="feature-visual green">
+          <div class="fv-label">⏰ Inscrições abertas · jun/26</div>
+          <div class="deadline-cards">
+            <div class="dl-card">
+              <div><div class="dl-name">Corrida do Artilheiro</div><div class="dl-meta">28/06 · Boqueirão, CWB</div></div>
+              <span class="dl-days urgent">2 dias</span>
+            </div>
+            <div class="dl-card">
+              <div><div class="dl-name">Tropeir Trail Run</div><div class="dl-meta">12/07 · Campina Grande do Sul</div></div>
+              <span class="dl-days soon">19 dias</span>
+            </div>
+            <div class="dl-card">
+              <div><div class="dl-name">Corrida Pequeno Príncipe</div><div class="dl-meta">02/08 · Praça Afonso Botelho</div></div>
+              <span class="dl-days ok">45 dias</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F3 -->
+      <div class="feature-row">
+        <div class="feature-copy">
+          <div class="feature-num">03</div>
+          <span class="feature-tag">Chat do treino</span>
+          <h3 class="feature-title">Chega de enrolação.</h3>
+          <p class="feature-body">
+            Queria marcar mais beach tennis com os amigos mas é sempre aquela enrolação no grupo?
+            Veja os treinos que vão acontecer perto de você, confirme presença e
+            <strong>chame quem você quer — direto pelo app, sem mensagem em aberto, sem bolo, sem ninguém sumindo na hora H.</strong>
+            <br><br>
+            Criamos um chat específico pra cada treino.
+            <em>Ele se dissolve sozinho duas horas depois que o treino acaba.</em>
+            Só o que importa, na hora certa.
+          </p>
+        </div>
+        <div class="chat-preview">
+          <div class="chat-header">
+            <div>
+              <div class="chat-title">Treinão beach · sábado 9h</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.06em;margin-top:3px">6 pessoas confirmadas</div>
+            </div>
+            <span class="chat-badge">encerra 11h</span>
+          </div>
+          <div class="chat-body">
+            <div class="msg them">Gente, encontro às 8h50 na entrada do CWBeach?</div>
+            <div class="msg me">Tô dentro! 🙌</div>
+            <div class="msg them">Eu chego 5 min antes</div>
+            <div class="msg me">Meu amigo confirmou agora, somos 7</div>
+          </div>
+          <div class="chat-footer">⏱ chat se encerra automaticamente 2h após o treino</div>
+        </div>
+      </div>
+
+      <!-- F4 -->
+      <div class="feature-row flip">
+        <div class="feature-copy">
+          <div class="feature-num">04</div>
+          <span class="feature-tag">Mapa social</span>
+          <h3 class="feature-title">Tem medo de ir correr a sós de noite?</h3>
+          <p class="feature-body">
+            Veja quem corre perto de você no mesmo horário e vá junto. Ou chame alguém pelo app antes de sair.
+            <br><br>
+            A COM&GO mostra quem da sua rede está ativo perto de você agora —
+            <strong>pra nenhum treino precisar ser solitário</strong>, e pra você nunca precisar escolher entre segurança e movimento.
+          </p>
+        </div>
+        <div class="feature-visual purple">
+          <div class="fv-label">📍 Perto de você agora</div>
+          <div class="notif-card hi">
+            <div class="notif-icon">🏃</div>
+            <div class="notif-text">
+              <strong>Camila está correndo</strong> a 800m de você — Parque Barigui.<br>
+              <div class="notif-time">Agora · 19h42</div>
+            </div>
+          </div>
+          <div class="notif-card hi">
+            <div class="notif-icon">🧘</div>
+            <div class="notif-text">
+              <strong>Rafa e mais 2 pessoas</strong> têm yoga às 20h no Jardim Botânico. Vão junto?<br>
+              <div class="notif-time">Agora · 19h15</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F5 -->
+      <div class="feature-row">
+        <div class="feature-copy">
+          <div class="feature-num">05</div>
+          <span class="feature-tag">Profissionais e treinões</span>
+          <h3 class="feature-title">Quer entrar numa comunidade esportiva mas não sabe por onde começar?</h3>
+          <p class="feature-body">
+            Quer descobrir se tem um grupo de corrida no seu bairro? Uma turma de bike que sai aos sábados? Um professor de yoga que dá aula ao ar livre perto de você?
+            <br><br>
+            <strong>A COM&GO reúne assessorias, instrutores e grupos da cidade num só lugar</strong> — com agenda, horários e como participar.
+            <em>Você experimenta antes de assinar qualquer coisa.</em>
+          </p>
+        </div>
+        <div class="feature-visual green">
+          <div class="fv-label">🏅 Profissionais perto de você</div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--accent)"></div>
+            <div><div class="fv-name">High Pace Runners</div><div style="font-size:12px;color:var(--muted)">Treinão grátis · qua e sáb</div></div>
+            <span class="fv-meta">1.2km</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--purple)"></div>
+            <div><div class="fv-name">Marina Alves · Yoga</div><div style="font-size:12px;color:var(--muted)">Aula aberta · R$75</div></div>
+            <span class="fv-meta">0.8km</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--green)"></div>
+            <div><div class="fv-name">Copa Olaria · Beach</div><div style="font-size:12px;color:var(--muted)">Torneio aberto · sábado</div></div>
+            <span class="fv-meta">2.1km</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- F6 -->
+      <div class="feature-row flip">
+        <div class="feature-copy">
+          <div class="feature-num">06</div>
+          <span class="feature-tag">Eventos + prova social</span>
+          <h3 class="feature-title">Sempre vê aquele evento wellness de uma marca famosa e pensa "quem iria comigo?"</h3>
+          <p class="feature-body">
+            Agora você consegue ver <strong>quem da sua rede já comprou ingresso</strong> ou vai estar no evento — pra já chegar entrosado com a galera.
+            <br><br>
+            E se quem te segue vir que você se inscreveu, provavelmente alguém vai se animar.
+            <em>Esquece comunicação no WhatsApp. Esquece mandar mensagem pra cinco pessoas perguntando se alguém vai.</em>
+            <br><br>
+            A gente automatizou isso. Deixamos prático pra quem quer se mexer sem desculpa.
+          </p>
+        </div>
+        <div class="feature-visual">
+          <div class="fv-label">✨ Yoga in Natura · 21/06 · Pedreira Paulo Leminski</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:12px">Galera que vai</div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--accent)"></div>
+            <div><div class="fv-name">Ana Beatriz</div><div style="font-size:12px;color:var(--muted)">comprou ingresso</div></div>
+            <span class="fv-badge going">vai ✓</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--accent)"></div>
+            <div><div class="fv-name">Júlia + Mariana</div><div style="font-size:12px;color:var(--muted)">compraram ingresso</div></div>
+            <span class="fv-badge going">vão ✓</span>
+          </div>
+          <div class="fv-item">
+            <div class="fv-dot" style="background:var(--muted)"></div>
+            <div><div class="fv-name">Fernanda</div><div style="font-size:12px;color:var(--muted)">está de olho</div></div>
+            <span class="fv-badge watch">de olho 👀</span>
+          </div>
+          <div style="margin-top:14px;padding:12px 14px;background:rgba(200,241,53,0.07);border:1px solid rgba(200,241,53,0.15);border-radius:10px;font-size:13px;color:var(--accent);font-style:italic">
+            "Gente, 4 amigos vão — eu também vou!"
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROVA SOCIAL -->
+<section class="proof">
+  <div class="wrap">
+    <div class="eyebrow">Construída em público</div>
+    <p class="proof-quote">
+      "As pessoas não buscam apenas atividade física.<br>
+      Elas buscam <strong>pertencimento.</strong><br>
+      A COM&GO conecta os dois."
+    </p>
+    <div class="proof-stats">
+      <div class="proof-stat">
+        <div class="num">580+</div>
+        <div class="lbl">Seguidores em 2 meses</div>
+      </div>
+      <div class="proof-stat">
+        <div class="num">100K</div>
+        <div class="lbl">Visualizações numa semana</div>
+      </div>
+      <div class="proof-stat">
+        <div class="num">CWB</div>
+        <div class="lbl">Reconhecida por organizadores locais</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="lista" class="final-cta">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="eyebrow">Lançamento</div>
+      <h2 class="sh">Chega de descobrir <span class="a">depois que passou.</span></h2>
+    </div>
+    <div class="countdown">
+      <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-lbl">Dias</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-lbl">Horas</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl">Minutos</div></div>
+    </div>
+    <form id="form-cta" class="signup"
+          action="https://formspree.io/f/mlgkzlwk"
+          method="POST">
+      <div class="signup-row">
+        <input type="email" name="email" placeholder="seu@email.com" required aria-label="Seu e-mail">
+        <button type="submit" class="btn btn-primary">Tô dentro</button>
+      </div>
+      <div class="or-divider">ou</div>
+      <a class="btn btn-wa"
+         href="https://wa.me/5541992820191?text=Quero%20entrar%20na%20lista%20de%20espera%20da%20COM%26GO!"
+         target="_blank" rel="noopener">
+        Avisa pelo WhatsApp →
+      </a>
+      <p class="form-status" id="status-cta"></p>
+      <p class="micro">Sem spam. Um aviso no lançamento. Só isso.</p>
+    </form>
+    <p class="launch-date">Lançamento em Curitiba · 13 de julho de 2026</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">COM&GO</div>
+      <div class="footer-tagline">o movimento da sua cidade</div>
+    </div>
+    <div class="footer-meta">
+      <div><a href="https://instagram.com/comgo.app" target="_blank" rel="noopener">@comgo.app</a></div>
+      <div>comgo.app</div>
+      <div>Curitiba, Brasil</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const launch = new Date('2026-07-13T00:00:00-03:00').getTime();
+function tick() {
+  const diff = launch - Date.now();
+  if (diff <= 0) { document.getElementById('cd-d').textContent = '0'; return; }
+  document.getElementById('cd-d').textContent = Math.floor(diff / 864e5);
+  document.getElementById('cd-h').textContent = Math.floor(diff / 36e5) % 24;
+  document.getElementById('cd-m').textContent = Math.floor(diff / 6e4) % 60;
+}
+tick(); setInterval(tick, 60000);
+
+function wire(formId, statusId) {
+  document.getElementById(formId).addEventListener('submit', async e => {
+    e.preventDefault();
+    const st = document.getElementById(statusId);
+    st.className = 'form-status'; st.textContent = 'Enviando...'; st.style.display = 'block';
+    try {
+      const r = await fetch(e.target.action, {
+        method: 'POST', body: new FormData(e.target),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (r.ok) {
+        st.textContent = '🎉 Pronto! Você está na lista. Te avisamos no lançamento.';
+        st.className = 'form-status ok'; e.target.reset();
+      } else {
+        st.textContent = 'Algo deu errado. Tenta de novo ou manda mensagem no WhatsApp.';
+        st.className = 'form-status err';
+      }
+    } catch(_) {
+      st.textContent = 'Algo deu errado. Tenta de novo ou manda mensagem no WhatsApp.';
+      st.className = 'form-status err';
+    }
+  });
+}
+wire('form-hero','status-hero');
+wire('form-cta','status-cta');
+</script>
+</body>
+</html>
